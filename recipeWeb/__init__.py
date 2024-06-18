@@ -2,20 +2,19 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-from .config import Config
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
 
-def my_app(config_name=None):
+def my_app(config_name):
     app = Flask(__name__)
     # app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     if config_name == 'testing':
         app.config.from_object('recipeWeb.config.TestingConfig')
     else:
-        app.config.from_object(Config)
+        app.config.from_object(config_name)
         
     db.init_app(app)
 
