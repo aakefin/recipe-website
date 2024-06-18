@@ -1,0 +1,132 @@
+{% extends "base_template.html" %}
+{% block content %}
+<style>
+    .home-container {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .home-container h1 {
+        color: #040507;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .home-container .search-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .home-container .search-container input[type="text"] {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .home-container .search-container .button {
+        padding: 10px 20px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .home-container .search-container .button:hover {
+        background-color: #0056b3;
+    }
+
+    .home-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .home-container li {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .home-container a {
+        text-decoration: none;
+        color: #007BFF;
+        font-size: 18px;
+    }
+
+    .home-container a:hover {
+        text-decoration: underline;
+    }
+
+    .home-container .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .home-container .pagination a {
+        color: #007BFF;
+        text-decoration: none;
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .home-container .pagination a:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+<div class="home-container">
+    <h1>All Recipes</h1>
+    <div class="search-container">
+        <input type="text" id="searchQuery" placeholder="Search recipes..." onkeyup="filterRecipes()">
+        <a href="{{ url_for('views.add_recipe') }}" class="button">Add New Recipe</a>
+    </div>
+
+    <ul id="recipeList">
+        {% for recipe in recipes.items %}
+        <li class="recipe-item">
+            <a href="{{ url_for('views.recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        {% if recipes.has_prev %}
+        <a href="{{ url_for('views.home_page', page=recipes.prev_num, query=query) }}">&laquo; Prev</a>
+        {% endif %}
+        {% if recipes.has_next %}
+        <a href="{{ url_for('views.home_page', page=recipes.next_num, query=query) }}">Next &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function filterRecipes() {
+        let query = document.getElementById('searchQuery').value.toLowerCase();
+        let recipes = document.getElementsByClassName('recipe-item');
+        for (let i = 0; i < recipes.length; i++) {
+            let recipeName = recipes[i].getElementsByTagName('a')[0].innerText.toLowerCase();
+            if (recipeName.includes(query)) {
+                recipes[i].style.display = '';
+            } else {
+                recipes[i].style.display = 'none';
+            }
+        }
+    }
+</script>
+{% endblock %}

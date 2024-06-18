@@ -1,0 +1,109 @@
+{% extends "base_template.html" %}
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 20px;
+    }
+
+    .recipe-details {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 50%;
+        margin: 50px auto;
+        position: relative;
+    }
+
+    h1 {
+        color: #007BFF;
+        margin-bottom: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .back-link {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        text-decoration: none;
+        color: #007BFF;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .edit-delete-icons {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+
+    .edit-delete-icons a {
+        text-decoration: none;
+        margin-left: 10px;
+        color: #007BFF;
+        padding: 5px; /* Add padding for better clickability */
+    }
+
+    .edit-delete-icons a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="recipe-details">
+    <div class="edit-delete-icons">
+        <form method="POST" action="{{ url_for('views.delete_recipe', recipe_id=recipe.id) }}" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+            <button type="submit" class="btn btn-link ml-4"><i class="bi bi-trash"></i> Delete</button>
+        </form>
+        <a href="{{ url_for('views.update_recipe', recipe_id=recipe.id) }}" class="ml-3">
+            <i class="bi bi-pencil-square"></i> Edit
+        </a>
+        <a href="{{ url_for('views.home_page') }}" class="ml-3">Back to all recipes</a>
+    </div>
+
+    
+    <h1>{{ recipe.title }}</h1>
+    <p>{{ recipe.description }}</p>
+
+    <h2>Ingredients</h2>
+    <table>
+        <tbody>
+            {% for ingredient in recipe.ingredients %}
+            <tr>
+                <td>{{ ingredient }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h2>Instructions</h2>
+    <table>
+        <tbody>
+            {% for step in recipe.instructions.split('\n') %}
+            <tr>
+                <td>{{ step }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
