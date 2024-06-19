@@ -49,6 +49,7 @@ Install the necessary Python packages using pip:
 
 pip install -r requirements.txt
 ```
+Note - While installing the requirements, pip may install the latest version. In such case, will have to manually install the modules.
 
 ### 4. Run the application
 To start the Flask development server, run:
@@ -57,6 +58,11 @@ To start the Flask development server, run:
 python myServer.py
 ```
 The application will be available at http://127.0.0.1:5000.
+
+### 5. To run the unit tests
+```bash
+ pytest .\tests\
+```
 
 
 
