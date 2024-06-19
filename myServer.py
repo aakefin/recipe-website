@@ -4,4 +4,4 @@ from recipeWeb.config import Config
 app = my_app(Config)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
