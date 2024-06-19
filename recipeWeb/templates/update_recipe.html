@@ -85,9 +85,10 @@
             <select id="ingredients" name="ingredients" multiple="multiple" required>
                 {% for ingredient in recipe.ingredients %}
                 <option value="{{ ingredient }}">{{ ingredient }}</option>
+                <div class="error" id="ingredientsError"></div>
                 {% endfor %}
             </select>
-            <div class="error" id="ingredientsError"></div>
+            
         </div>
         <div class="form-group">
             <label for="instructions">Instructions</label>
@@ -100,35 +101,32 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const ingredientsSelect = $('#ingredients');
-        
-        // Initialize Select2 with AJAX loading and tagging support
-        ingredientsSelect.select2({
-            placeholder: 'Select or type ingredients',
-            tags: true,  // Allow user to add new tags (ingredients)
-            tokenSeparators: [',', ' '],  // Allow comma and space to separate tags
-            ajax: {
-                url: '/static/ingredients.json',
-                dataType: 'json',
-                processResults: function(data) {
-                    return {
-                        results: data.map(function(item) {
-                            return { id: item, text: item };
-                        })
-                    };
-                }
-            },
-            allowClear: true
-        });
+        fetch('/static/ingredients.json')
+            .then(response => response.json())
+            .then(data => {
+                const ingredientsSelect = $('#ingredients');
+                data.forEach(ingredient => {
+                    const option = new Option(ingredient, ingredient);
+                    ingredientsSelect.append(option);
+                });
+                ingredientsSelect.select2({
+                    placeholder: "Select or type ingredients",
+                    allowClear: true,
+                    tags: true,  // Enable tagging
+                    tokenSeparators: [',', ' ']  // Define how tags are separated
+                });
+            })
+            .catch(error => console.error('Error loading ingredients:', error));
+    });
 
         // Pre-select existing ingredients
-        {% if recipe.ingredients %}
-        {% for ingredient in recipe.ingredients %}
-        const option = new Option('{{ ingredient }}', '{{ ingredient }}', true, true);
-        ingredientsSelect.append(option).trigger('change');
-        {% endfor %}
-        {% endif %}
-    });
+    //     {% if recipe.ingredients %}
+    //     {% for ingredient in recipe.ingredients %}
+    //     const option = new Option('{{ ingredient }}', '{{ ingredient }}', true, true);
+    //     ingredientsSelect.append(option).trigger('change');
+    //     {% endfor %}
+    //     {% endif %}
+    // });
 </script>
 
 {% endblock %}

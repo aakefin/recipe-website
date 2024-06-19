@@ -61,23 +61,20 @@
   </header>
 
   
-{% with messages = get_flashed_messages(with_categories=true) %} {% if
-  messages %} {% for category, message in messages %} {% if category ==
-  'error' %}
-  <div class="alert alert-danger alter-dismissable show" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  {% else %}
-  <div class="alert alert-success alter-dismissable  show" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  {% endif %} {% endfor %} {% endif %} {% endwith %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script type="text/javascript">
+      {% for category, message in messages %}
+        {% if category == 'error' %}
+          alert("Error: {{ message }}");
+        {% else %}
+          alert("Success: {{ message }}");
+        {% endif %}
+      {% endfor %}
+    </script>
+  {% endif %}
+{% endwith %}
+
 
   {% block content %}
   
@@ -86,20 +83,20 @@
   
   {% endblock %}
 
-  <footer id="footer" class="footer"  style=" bottom: 0; width: 100%; text-align: center;">
+  <!-- <footer id="footer" class="footer"  style=" bottom: 0; width: 100%; text-align: center;"> -->
 
-    <!-- <div class="container copyright text-center mt-4" style="position: absolute; bottom: 0; width: 100%;"> -->
+    <!-- <div class="container copyright text-center mt-4" style="position: absolute; bottom: 0; width: 100%;">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
-      <!-- <div class="credits"> -->
+       <div class="credits"> -->
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you've purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
+        <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+      <!-- </div> -->
+    <!-- </div> --> 
 
-  </footer>
+  <!-- </footer> -->
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
